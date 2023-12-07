@@ -1,52 +1,44 @@
 #include "lists.h"
-#include <stdlib.h>
 
 /**
- * _strlen - gets length of the string
- * @s: string
- * Return: length of the string
+ * get_length - returns the length of a string
+ * @str: string to determine the length of
+ *
+ * Return: length of @str
  */
-
-int _strlen(const char *s)
+unsigned int get_length(const char *str)
 {
-	int i;
+	unsigned int i, length = 0;
 
-	for (i = 0; s[i]; i++)
-		;
-	return (i);
+	if (str == NULL)
+		return (0);
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		length++;
+		i++;
+	}
+	return (length);
 }
 
 /**
- * add_node - add new nodes to the list
- * @head: current place in the list
- * @str: string to add to the head
- * Return: pointer to current position in list
+ * add_node - add a node at the beginning
+ * @head: pointer to first node
+ * @str: string
+ * Return: pointer to list
  */
-
 list_t *add_node(list_t **head, const char *str)
 {
-	int i, len;
-	char *content;
-	list_t *new;
+	list_t *new = (list_t *) malloc(sizeof(list_t));
+	unsigned int len;
 
-	if (str == NULL || head == NULL)
-		return (NULL);
-	len = _strlen(str);
-	new = *head;
-	content = malloc((len + 1) * sizeof(char));
-	if (content == NULL)
-		return (NULL);
-	for (i = 0; str[i]; i++)
-		content[i] = str[i];
-	new = malloc(sizeof(list_t));
 	if (new == NULL)
-	{
-		free(content);
 		return (NULL);
-	}
-	new->str = content;
+	len = get_length(str);
+	new->str = strdup(str);
 	new->len = len;
-	new->next = *head;
-	*head = new;
-	return (new);
+	new->next = (*head);
+	(*head) = new;
+	return (*head);
 }
