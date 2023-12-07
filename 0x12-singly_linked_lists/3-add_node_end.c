@@ -1,57 +1,54 @@
+#include <string.h>
+#include <stdlib.h>
 #include "lists.h"
 
 /**
- * get_length - returns the length of a string
- * @str: string parameter
- *
- * Return: length of @str
- */
-unsigned int get_length(const char *str)
+  * *add_node_end - adds a new node at the end of a linked list.
+  * @head: start of the list.
+  * @str: string.
+  * Return: the address of the new element,
+  * or null if it failed.
+  */
+list_t *add_node_end(list_t **head, const char *str)
 {
-	int i, length = 0;
+	list_t *newNode;
 
-	if (str == NULL)
-		return (0);
-	i = 0;
-	while (str[i] != '\0')
+	newNode = (list_t *)malloc(sizeof(list_t));
+	if (newNode == NULL)
+		return (NULL);
+	newNode->str = strdup(str);
+	newNode->len = string_length(str);
+	newNode->next = NULL;
+	/* check if list is null and make new node the head */
+	if (*head == NULL)
+		*head = newNode;
+	/* else find last node and add new node */
+	else
 	{
-		length++;
-		i++;
+		list_t *lastNode = *head;
+		/* last node has to be NULL use while to check */
+		while (lastNode->next != NULL)
+		{
+			lastNode = lastNode->next;
+		}
+		/* if null is found add new node at the end */
+		lastNode->next = newNode;
 	}
-	return (length);
+	return (newNode);
 }
 
 /**
- * add_node_end - adds a new node to end of linked list
- * @head: pointer to pointer to linked list
- * @str: used to set the str attribute of the new node
- *
- * Return: address of linked list of NULL
- */
-list_t *add_node_end(list_t **head, const char *str)
+  * string_length - finds the length of a string.
+  * Return: length of c.
+  * @pointer: pointer.
+  */
+int string_length(const char *pointer)
 {
-	list_t *new;
-	list_t *last;
-	unsigned int len;
+	int c = 0;
 
-	new = malloc(sizeof(list_t));
-	if (new == NULL)
-		return (NULL);
-	len = get_length(str);
-	last = *head;
-
-	new->str = strdup(str);
-	new->len = len;
-	new->next = NULL;
-
-	if (*head == NULL)
+	while (*(pointer + c) != '\0')
 	{
-		*head = new;
-		return (*head);
+		c++;
 	}
-
-	while (last->next != NULL)
-		last = last->next;
-	last->next = new;
-	return (*head);
+	return (c);
 }
