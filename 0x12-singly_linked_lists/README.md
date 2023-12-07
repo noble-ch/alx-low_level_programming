@@ -8,6 +8,6 @@
 
 3. Adds a new node at the end of a list_t list. Returns the address of the new element, or NULL if it failed.
 
-4. Frees a list_t lists.
+4. Frees a list_t list.
 
 5. Prints `You're beat! and yet, you must allow,\nI bore my house upon my back!\n before the main function is executed.`
